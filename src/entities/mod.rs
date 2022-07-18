@@ -1,4 +1,5 @@
 use piston::input::*;
+use opengl_graphics::GlGraphics;
 
 pub mod player;
 
@@ -10,6 +11,6 @@ pub struct Doodle {
     pub sprite : i32,
 }
 pub trait Entity {
-    fn render(&mut self) -> Doodle;
+    fn render(&mut self, args: &RenderArgs,gl : &mut GlGraphics);
     fn update(&mut self, e: &Event);
 }

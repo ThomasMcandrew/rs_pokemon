@@ -1,6 +1,5 @@
-
+use opengl_graphics::GlGraphics;
 use crate::entities::Entity;
-use crate::entities::Doodle;
 
 use piston::input::*;
 
@@ -81,14 +80,15 @@ impl Player {
 }
 
 impl Entity for Player {
-    fn render(&mut self) -> Doodle { 
-        Doodle {
-            x : self.x,
-            y : self.y,
-            width : self.width,
-            height : self.height,
-            sprite : 0, 
-        }
+    fn render(&mut self, args: &RenderArgs,gl : &mut GlGraphics) {
+        use graphics::*;
+        const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
+        gl.draw(args.viewport(), |c, gl| {
+            rectangle(RED, 
+                rectangle::square(0.0,0.0,self.width),
+                c.transform
+                .trans(self.x,self.y),gl);
+        });
     }
     fn update(&mut self, e: &Event) {
         self.handle_user_input(e);
