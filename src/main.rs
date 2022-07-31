@@ -6,7 +6,6 @@ extern crate piston;
 mod entities;
 mod worlds;
 use crate::entities::player::Player;
-use crate::entities::Entity;
 use crate::worlds::World;
 
 use glutin_window::GlutinWindow as Window;
@@ -18,7 +17,6 @@ use piston::window::WindowSettings;
 pub struct Game {
     gl: GlGraphics, // OpenGL drawing backend.
     rotation: f64,  // Rotation for the square.
-    player : Player,
     world : World,
 }
 
@@ -26,18 +24,18 @@ impl Game {
     fn render(&mut self, args: &RenderArgs) {
         use graphics::*;
 
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+        const GREEN: [f32; 4] = [0.0, 0.0, 0.0, 0.0];
         self.gl.draw(args.viewport(), |_, gl| {
             clear(GREEN, gl);
-       });
+        });
+
         self.world.render(args, &mut self.gl);
-        self.player.render(args, &mut self.gl)
     }
     fn update(&mut self, e: &Event) {
          if let Some(args) = e.update_args() {
             self.rotation += 2.0 * args.dt;
          }
-         self.player.update(e);
+         self.world.update(e);
     }
 }
 
@@ -55,7 +53,6 @@ fn main() {
     let mut game = Game {
         gl: GlGraphics::new(opengl),
         rotation: 0.0,
-        player: Player::new(),
         world : World::new(),
    };
 

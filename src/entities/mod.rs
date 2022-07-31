@@ -3,14 +3,9 @@ use opengl_graphics::GlGraphics;
 
 pub mod player;
 
-pub struct Doodle {
-    pub x : f64,
-    pub y : f64,
-    pub width : f64,
-    pub height : f64,
-    pub sprite : i32,
-}
 pub trait Entity {
-    fn render(&mut self, args: &RenderArgs,gl : &mut GlGraphics);
+    fn render(&mut self, args: &RenderArgs,gl : &mut GlGraphics,
+            x_offset : f64,
+            y_offset : f64);
     fn update(&mut self, e: &Event);
 }

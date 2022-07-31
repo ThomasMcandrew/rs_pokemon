@@ -80,14 +80,19 @@ impl Player {
 }
 
 impl Entity for Player {
-    fn render(&mut self, args: &RenderArgs,gl : &mut GlGraphics) {
+    fn render(&mut self, args: &RenderArgs,
+            gl : &mut GlGraphics,
+            x_offset : f64,
+            y_offset : f64) {
         use graphics::*;
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
         gl.draw(args.viewport(), |c, gl| {
             rectangle(RED, 
                 rectangle::square(0.0,0.0,self.width),
                 c.transform
-                .trans(self.x,self.y),gl);
+                .trans(self.x - x_offset,
+                    self.y - y_offset),
+                gl);
         });
     }
     fn update(&mut self, e: &Event) {
